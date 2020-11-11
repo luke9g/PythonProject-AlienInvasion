@@ -80,7 +80,7 @@ class AlienInvasion:
 
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
-        self.screen.gitfill(self.settings.bg_color)
+        self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
