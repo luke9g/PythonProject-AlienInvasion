@@ -36,6 +36,11 @@ class Ship:
         # Współrzędne obiektu rect są przechowywane w postaci liczby bez części dziesiętnej.
         self.rect.x = self.x
 
+    def center_ship(self):
+        """Umieszczenie statku na środku przy dolnej krawędzi ekranu."""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
+
     def blitme(self):
         """Wyświetlenie statku kosmicznego w jego aktualnym położeniu."""
         self.screen.blit(self.image, self.rect)
