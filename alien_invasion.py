@@ -31,6 +31,9 @@ class AlienInvasion:
 
         pygame.display.set_caption("Inwazja obcych")
 
+        # Plik, w którym będzie przechowywany najlepszy wynik osiągnięty przez gracza
+        self.high_score_filename = "high_score.txt"
+
         # Utworzenie statystyk gry i tablicy wyników
         self.stats = GameStats(self)
         self.scoreboard = Scoreboard(self)
@@ -58,6 +61,8 @@ class AlienInvasion:
         """Reakcja na zdarzenia generowane przez klawiaturę i mysz."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                if self.stats.score == self.stats.high_score:
+                    self._save_score(self.high_score_filename)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -70,6 +75,8 @@ class AlienInvasion:
     def _check_keydown_events(self, event):
         """Reakcja na naciśnięcie klawisza."""
         if event.key == pygame.K_ESCAPE:
+            if self.stats.score == self.stats.high_score:
+                self._save_score(self.high_score_filename)
             sys.exit()
         elif event.key == pygame.K_g and not self.stats.game_active:
             self._start_game()
@@ -135,6 +142,7 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.scoreboard.prep_score()
+            self.scoreboard.check_high_score()
 
         if not self.aliens:
             # Usunięcie istniejących pocisków, przyspieszenie gry i utworzenie nowej floty.
@@ -237,6 +245,12 @@ class AlienInvasion:
 
         # Wyświetlenie ostatnio zmodyfikowanego ekranu.
         pygame.display.flip()
+
+    def _save_score(self, filename):
+        """Zapisuje wynik w pliku."""
+        with open(filename, "w") as file:
+            rounded_high_score = round(self.stats.high_score, -1)
+            file.write(str(rounded_high_score))
 
 
 if __name__ == "__main__":

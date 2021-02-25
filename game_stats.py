@@ -9,6 +9,20 @@ class GameStats:
         # Flaga aktywności gry
         self.game_active = False
 
+        # Najlepszy wynik osiągnięty w grze
+        self.high_score = self._load_score(ai_game.high_score_filename)
+
+    @staticmethod
+    def _load_score(filename):
+        """Zwraca wynik zapisany w pliku."""
+        try:
+            with open(filename) as file:
+                return int(file.read())
+        except FileNotFoundError:
+            return 0
+        except ValueError:
+            return 0
+
     def reset_stats(self):
         """Inicjalizacja tych statystyk, które mogą zmieniać się w trakcie gry."""
         self.ships_left = self.settings.ship_limit
