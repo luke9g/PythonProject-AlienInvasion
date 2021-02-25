@@ -93,6 +93,8 @@ class AlienInvasion:
 
     def _start_game(self):
         """Rozpoczęcie nowej gry."""
+        # Zresetowanie ustawień dynamicznych gry
+        self.settings.initialize_dynamic_settings()
         # Zresetowanie statystyk gry
         self.stats.reset_stats()
         self.stats.game_active = True
@@ -127,9 +129,10 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
         if not self.aliens:
-            # Pozbycie się istniejących pocisków i utworzenie nowej floty.
+            # Usunięcie istniejących pocisków, przyspieszenie gry i utworzenie nowej floty.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _update_aliens(self):
         """Uaktualnienie położenia wszystkich obcych we flocie."""
