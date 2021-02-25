@@ -23,7 +23,7 @@ class Button:
         self._prep_msg(msg)
 
     def _prep_msg(self, msg):
-        """Umieszczenie komunikatu w wygenerowanym obrazie i wyśrodkowanie tekstu na przycisku."""
+        """Umieszczenie komunikatu we wygenerowanym obrazie i wyśrodkowanie tekstu na przycisku."""
         self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center

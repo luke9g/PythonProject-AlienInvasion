@@ -23,6 +23,9 @@ class Settings:
         # Zmiana szybkości gry po przejściu na nowy poziom
         self.speedup_scale = 1.1
 
+        # Zmiana liczby punktów za zestrzelenie obcego po przejściu na nowy poziom
+        self.score_scale = 1.5
+
         # Ustawienia dynamiczne
         self.initialize_dynamic_settings()
 
@@ -34,8 +37,14 @@ class Settings:
         # Wartość fleet_direction wynosząca 1 oznacza ruch w prawo, a -1 w lewo.
         self.fleet_direction = 1
 
+        # Liczba punktów za zestrzelenie obcego
+        self.alien_points = 50
+
     def increase_speed(self):
-        """Zmiana ustawień dotyczących szybkości."""
+        """Zmiana ustawień dotyczących szybkości gry."""
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+
+        # Zwiększenie liczby punktów za zestrzelenie obcego po przejsciu na nowy poziom
+        self.alien_points = int(self.alien_points * self.score_scale)
