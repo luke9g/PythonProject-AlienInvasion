@@ -104,11 +104,12 @@ class AlienInvasion:
         """Rozpoczęcie nowej gry."""
         # Zresetowanie ustawień dynamicznych gry
         self.settings.initialize_dynamic_settings()
-        # Zresetowanie statystyk gry
+        # Zresetowanie statystyk gry i wyników
         self.stats.reset_stats()
         self.stats.game_active = True
         self.scoreboard.prep_score()
         self.scoreboard.prep_level()
+        self.scoreboard.prep_ships()
         # Usunięcie zawartości list aliens i bullets
         self.aliens.empty()
         self.bullets.empty()
@@ -218,9 +219,10 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Reakcja na zderzenie obcego ze statekiem gracza lub z dolną krawędzią ekranu."""
-        if self.stats.ships_left > 1:
-            # Zmniejszenie wartości przechowywanej w ships_left.
-            self.stats.ships_left -= 1
+        # Uaktualnienie liczby statków, jakie pozostały graczowi.
+        self.stats.ships_left -= 1
+        self.scoreboard.prep_ships()
+        if self.stats.ships_left >= 1:
             # Usunięcie zawartości list aliens i bullets.
             self.aliens.empty()
             self.bullets.empty()
