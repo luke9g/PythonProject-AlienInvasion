@@ -18,7 +18,10 @@ class Scoreboard:
         self.text_color = (60, 60, 60)
         self.font = pygame.font.SysFont(None, 48)
 
-        # Przygotowanie początkowych obrazów z punktacją, poziomem gry i liczbą pozostałych statków.
+        self.prep_images()
+
+    def prep_images(self):
+        """Przygotowanie obrazów z punktacją, poziomem gry i liczbą pozostałych statków."""
         self.prep_score()
         self.prep_high_score()
         self.prep_level()

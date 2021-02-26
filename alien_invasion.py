@@ -79,7 +79,7 @@ class AlienInvasion:
                 self._save_score(self.high_score_filename)
             sys.exit()
         elif event.key == pygame.K_g and not self.stats.game_active:
-            self._start_game()
+            self._start_new_game()
         elif event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -98,9 +98,9 @@ class AlienInvasion:
         """Reakcja na kliknięcie przycisku "Nowa gra" przez użytkownika."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
-            self._start_game()
+            self._start_new_game()
 
-    def _start_game(self):
+    def _start_new_game(self):
         """Rozpoczęcie nowej gry."""
         # Zresetowanie ustawień dynamicznych gry
         self.settings.initialize_dynamic_settings()
@@ -147,14 +147,18 @@ class AlienInvasion:
             self.scoreboard.check_high_score()
 
         if not self.aliens:
-            # Usunięcie istniejących pocisków, przyspieszenie gry i utworzenie nowej floty.
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_speed()
+            self._start_new_level()
 
-            # Inkrementacja numeru poziomu
-            self.stats.level += 1
-            self.scoreboard.prep_level()
+    def _start_new_level(self):
+        """Rozpoczyna nowy poziom gry."""
+        # Usunięcie istniejących pocisków, przyspieszenie gry i utworzenie nowej floty.
+        self.bullets.empty()
+        self._create_fleet()
+        self.settings.increase_speed()
+
+        # Inkrementacja numeru poziomu
+        self.stats.level += 1
+        self.scoreboard.prep_level()
 
     def _update_aliens(self):
         """Uaktualnienie położenia wszystkich obcych we flocie."""
