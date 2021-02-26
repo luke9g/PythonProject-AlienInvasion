@@ -13,7 +13,7 @@ class Settings:
 
         # Ustawienia dotyczące pocisku
         self.bullet_width = 3
-        self.bullet_height = 15
+        self.bullet_height = 18
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 5
 
@@ -21,7 +21,7 @@ class Settings:
         self.fleet_drop_speed = 5
 
         # Zmiana szybkości gry po przejściu na nowy poziom
-        self.speedup_scale = 1.1
+        self.speedup_scale = 1.15
 
         # Zmiana liczby punktów za zestrzelenie obcego po przejściu na nowy poziom
         self.score_scale = 1.5

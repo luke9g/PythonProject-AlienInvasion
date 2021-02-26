@@ -138,7 +138,7 @@ class AlienInvasion:
     def _check_bullet_alien_collisions(self):
         """Reakcja na kolizję między pociskiem a obcym."""
         # Usunięcie wszystkich pocisków i obcych, między którymi doszło do kolizji.
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
 
         if collisions:
             for aliens in collisions.values():
