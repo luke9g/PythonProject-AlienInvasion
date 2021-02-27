@@ -19,12 +19,7 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
 
-        # Tryb pełnoekranowy
-        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        # self.settings.screen_width = self.screen.get_rect().width
-        # self.settings.screen_height = self.screen.get_rect().height
-
-        # Tryb niepełnoekranowy
+        # Ekran gry
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
 
@@ -91,6 +86,12 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_g and not self.stats.game_active:
             self._start_new_game()
+        elif event.key == pygame.K_f and not self.stats.game_active:
+            if self.screen.get_flags() & pygame.FULLSCREEN:
+                self.screen = pygame.display.set_mode(
+                    (self.settings.screen_width, self.settings.screen_height))
+            else:
+                self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         elif event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
