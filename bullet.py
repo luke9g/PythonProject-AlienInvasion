@@ -10,6 +10,7 @@ class Bullet(Sprite):
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.color = self.settings.bullet_color
+        self.ai_game = ai_game
 
         # Utworzenie prostokąta pocisku w punkcie (0,0), a następnie zdefiniowanie dla niego
         # określonego położenia.
@@ -22,7 +23,7 @@ class Bullet(Sprite):
     def update(self):
         """Poruszanie pociskiem po ekranie."""
         # Uaktualnienie położenia pocisku
-        self.y -= self.settings.bullet_speed
+        self.y -= self.settings.bullet_speed * self.ai_game.dt
         # Uaktualnienie położenia prostokąta pocisku
         self.rect.y = self.y
 

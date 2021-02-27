@@ -29,6 +29,9 @@ class Settings:
         # Ustawienia dynamiczne
         self.initialize_dynamic_settings()
 
+        # Czas pauzy gry po utracie statku przez gracza (w milisekundach)
+        self.delay = 500
+
     def initialize_dynamic_settings(self):
         """Inicjalizacja ustawień, które ulegają zmianie w trakcie gry."""
         self.ship_speed = 1.5

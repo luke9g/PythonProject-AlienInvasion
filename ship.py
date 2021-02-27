@@ -11,6 +11,7 @@ class Ship(Sprite):
         self.screen = ai_game.screen
         self.screen_rect = ai_game.screen.get_rect()
         self.settings = ai_game.settings
+        self.ai_game = ai_game
 
         # Wczytanie obrazu statku kosmicznego i pobranie jego prostokąta.
         self.image = pygame.image.load('images/ship.bmp')
@@ -30,9 +31,9 @@ class Ship(Sprite):
         """Uaktualnienie położenia statku na podstawie atrybutu wskazującego na jego ruch."""
         # Uaktualnienie wartości współrzędnej X statku, a nie jego prostokąta.
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.x += self.settings.ship_speed
+            self.x += self.settings.ship_speed * self.ai_game.dt
         if self.moving_left and self.rect.left > 0:
-            self.x -= self.settings.ship_speed
+            self.x -= self.settings.ship_speed * self.ai_game.dt
 
         # Uaktualnienie obiektu rect na podstawie wartości self.x.
         # Współrzędne obiektu rect są przechowywane w postaci liczby bez części dziesiętnej.

@@ -1,5 +1,4 @@
 import sys
-from time import sleep
 
 import pygame
 
@@ -31,6 +30,11 @@ class AlienInvasion:
 
         pygame.display.set_caption("Inwazja obcych")
 
+        # Kontrola nad szybkością gry (klatki na sekundę)
+        self.clock = pygame.time.Clock()
+        self.dt = 0  # Czas, który upłynął od ostatniej wygenerowanej klatki
+        self.FPS = 90
+
         # Plik, w którym będzie przechowywany najlepszy wynik osiągnięty przez gracza
         self.high_score_filename = "high_score.txt"
 
@@ -47,15 +51,22 @@ class AlienInvasion:
         # Utworzenie przycisku "Nowa gra"
         self.play_button = Button(self, "Nowa gra")
 
+        # Timer do pauzowania gry po utracie statku przez gracza (utrata "życia")
+        self.timer_set = False
+        self.timer_start_time = 0
+
     def run_game(self):
         """Rozpoczęcie pętli głównej gry."""
         while True:
             self._check_events()
-            if self.stats.game_active:
+            if self.stats.game_active and not self.timer_set:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
+            if self.timer_set:
+                self._continue_after_delay()
             self._update_screen()
+            self.dt = self.clock.tick(self.FPS)
 
     def _check_events(self):
         """Reakcja na zdarzenia generowane przez klawiaturę i mysz."""
@@ -227,17 +238,27 @@ class AlienInvasion:
         self.stats.ships_left -= 1
         self.scoreboard.prep_ships()
         if self.stats.ships_left >= 1:
-            # Usunięcie zawartości list aliens i bullets.
-            self.aliens.empty()
-            self.bullets.empty()
-            # Utworzenie nowej floty i wyśrodkowanie statku.
-            self._create_fleet()
-            self.ship.center_ship()
-            # Pauza.
-            sleep(0.5)
+            # Pauza
+            self.timer_set = True
+            self.timer_start_time = pygame.time.get_ticks()
         else:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
+
+    def _continue_after_delay(self):
+        """Kontynuuje grę po pauzie spowodowanej utracie statky przez gracza."""
+        if pygame.time.get_ticks() - self.timer_start_time >= self.settings.delay:
+            self.timer_set = False
+            self._start_same_level()
+
+    def _start_same_level(self):
+        """Rozpoczyna ten sam poziom gry, po utracie statku przez gracza."""
+        # Usunięcie zawartości list aliens i bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+        # Utworzenie nowej floty i wyśrodkowanie statku.
+        self._create_fleet()
+        self.ship.center_ship()
 
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
